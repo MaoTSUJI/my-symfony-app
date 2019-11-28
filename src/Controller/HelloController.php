@@ -10,7 +10,7 @@ class HelloController extends AbstractController
     /**
      * @Route("/hello/{name}/{pass}", name="hello")
      */
-    public function index($name, $pass)
+    public function index($name='(noname)', $pass='(no password)')
     {
         $result = '<html><body><ol>';
         $result .= '<h1>Parameter</h1>';
