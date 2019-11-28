@@ -8,19 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class HelloController extends AbstractController
 {
     /**
-     * @Route("/hello", name="hello")
+     * @Route("/hello/{name}/{pass}", name="hello")
      */
-    public function index()
+    public function index($name, $pass)
     {
-        $result = '<html><body>';
-        $result .= '<h1>Subscribed Services</h1>';
-        $result .= '<ol>';
-        $arr = $this->getSubscribedServices();
-
-        foreach ($arr as $key => $value) {
-            $result .= '<li>' .$key .'</li>';
-        }
-        $result .= '</ol>';
+        $result = '<html><body><ol>';
+        $result .= '<h1>Parameter</h1>';
+        $result .= '<p>name: '. $name . '</p>';
+        $result .= '<p>pass: '. $pass . '</p>';
         $result .= '</body></html>';
 
         return new Response($result);
