@@ -2,12 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{{ controller }}</title>
+    <title>{{ title }}</title>
 </head>
 <body>
-    <h1>{{ controller }}</h1>
-    <p>これは、{{ prev_action }}アクションから{{ action }}に送られたものです。</p>
-    <p>メッセージ：{{ message }}</p>
-    <p><a href="/other/{{ action }}/{{ message }}">next page</a></p>
+    <h1>{{ title }}</h1>
+    <p>{{ message }}</p>
+    <form action="/other" method="post">
+        <input type="text" name="input">
+        <input type="submit" value="Click">
+    </form>
 </body>
 </html>

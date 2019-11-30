@@ -4,32 +4,31 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class HelloController extends AbstractController
 {
     /**
-     * @Route("/hello/{msg}", name="hello")
+     * @Route("/hello", name="hello")
      */
-    public function index($msg='Hello!')
+    public function index(Request $request)
     {
         return $this->render('hello/index.html.twig', [
-            'controller' => 'HelloController',
-            'action' => 'index',
-            'prev_action' => '(none)',
-            'message' => $msg
+            'title' => 'Hello',
+            'message' => 'あなたのお名前'
         ]);
     }
 
     /**
-     * @Route("/other/{action}/{msg}", name="other")
+     * @Route("/other", name="other")
      */
-    public function other($action, $msg)
+    public function other(Request $request)
     {
-        return $this->render('hello/index.html.twig',[
-            'controller' => 'HelloController',
-            'action' => $action,
-            'prev_action' => '(none)',
-            'message' => $msg
+        $input = $request->request->get('input');
+        $msg = 'こんにちは'. $input . 'さん！';
+        return $this->render('hello/index.html.twig', [
+            'title' => 'Hello',
+            'message' => $msg,
         ]);
     }
 
