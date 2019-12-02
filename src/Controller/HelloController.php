@@ -5,46 +5,40 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class HelloController extends AbstractController
 {
     /**
      * @Route("/hello", name="hello")
      */
-    public function index(Request $request)
+    public function index(Request $request, SessionInterface $session)
     {
-        $person = new Person();
-        $person->setName('taro')
-            ->setAge(30)
-            ->setMail('taro@yamada.kun');
+        $data = new MyData();
+        $form = $this->createFormBuilder($data)
+            ->add('data', TextType::class)
+            ->add('save', SubmitType::class, ['label' => 'Click'])
+            ->getForm();
 
-        $form = $this->createFormBuilder($person)
-            ->add('name', TextType::class)
-            ->add('age', IntegerType::class)
-            ->add('mail', EmailType::class)
-            ->add('save', SubmitType::class, ['label' => 'Click'])  // メソッドチェーン
-            ->getForm();  // FormInterfaceオブジェクトを作成
-
-        
         if ($request->getMethod() == 'POST'){
             $form->handleRequest($request);
-            $obj = $form->getData();
-            $msg = 'Name: ' . $obj->getName() . '<br>'
-                    . 'Age: ' . $obj->getAge() . '<br>'
-                    . 'Mail: ' . $obj->getMail();
-        } else {
-            $msg = 'お名前をどうぞ！';
+            $data = $form->getData();
+            if ($data->getData() == '!') {
+                $session->remove('data');   // 値が!なら値を消去
+            } else {
+                $session->set('data', $data->getData());
+            }
+
         }
 
         return $this->render('hello/index.html.twig', [
-            'title' =>'Hello',
-            'message' => $msg,
-            'form' => $form->createView(),  // フォームを画面に表示するためのFormViewというインスタンスを生成
+            'title' => 'Hello',
+            'data' => $session->get('data'),
+            'form' => $form->createView(),
         ]);
 
     }
@@ -52,43 +46,16 @@ class HelloController extends AbstractController
 }
 
 // データクラス
-class Person
+class MyData
 {
-    protected $name;
-    protected $age;
-    protected $mail;
+    protected $data = '';
 
-    public function getName()
+    public function getData()
     {
-        return $this->name;
+        return $this->data;
     }
-
-    public function setName($name)
+    public function setData($data)
     {
-        $this->name = $name;
-        return $this;
+        $this->data = $data;
     }
-
-    public function getAge()
-    {
-        return $this->age;
-    }
-
-    public function setAge($age)
-    {
-        $this->age = $age;
-        return $this;
-    }
-
-    public function getMail()
-    {
-        return $this->mail;
-    }
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-        return $this;
-    }
-
-
 }
