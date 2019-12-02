@@ -4,5 +4,9 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
+{% set price = 12300 %}
 <p>{{ message }}</p>
+<p>金額：{{ price }}円</p>
+{% set taxprice = price * 1.08 %}
+<p>税込：{{ taxprice }}円</p>
 {% endblock %}

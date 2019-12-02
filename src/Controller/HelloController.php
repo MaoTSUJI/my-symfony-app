@@ -16,7 +16,7 @@ class HelloController extends AbstractController
     {
         return $this->render('hello/index.html.twig', [
             'title' => 'Hello',
-            'message' => 'これはサンプルのテンプレート画面です',
+            'message' => 'テンプレートで計算を行います',
         ]);    
     }
 
