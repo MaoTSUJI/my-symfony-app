@@ -16,7 +16,7 @@ class HelloController extends AbstractController
      */
     public function index(Request $request)
     {
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder()  // ビルダークラス
             ->add('input', TextType::class)
             ->add('save', SubmitType::class, ['label' =>'Click'])
             ->getForm();
@@ -30,7 +30,7 @@ class HelloController extends AbstractController
         return $this->render('hello/index.html.twig', [
             'title' =>'Hello',
             'message' => $msg,
-            'form' => $form->createView(),
+            'form' => $form->createView(),  // フォームを画面に表示するためのFormViewというインスタンスを生成
         ]);
 
     }
