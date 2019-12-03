@@ -4,10 +4,19 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-{% set arr = ['One', 'Two', 'Three', 'Four'] %}
-<ul>
-{% for item in arr %}
-<li>{{ item }}</li>
+<table>
+<tr>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Mail</th>
+</tr>
+
+{% for item in data %}
+<tr>
+    <td>{{ item.name }}</td>
+    <td>{{ item.age }}</td>
+    <td>{{ item.mail }}</td>
+</tr>
 {% endfor %}
-</ul>
+</table>
 {% endblock %}
