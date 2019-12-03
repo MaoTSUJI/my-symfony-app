@@ -4,11 +4,10 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-{% set flg = false %}
-{% set message = 'This is sample message.' %}
-{% if flg  %}
-    <p>{{ message }}</p>
-{% else  %}
-    <p>(※メッセージは非表示)</p>
-{% endif %}
+{% set arr = ['One', 'Two', 'Three', 'Four'] %}
+<ul>
+{% for item in arr %}
+<li>{{ item }}</li>
+{% endfor %}
+</ul>
 {% endblock %}
