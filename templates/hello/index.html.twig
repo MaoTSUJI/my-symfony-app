@@ -4,8 +4,6 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<p>※フォームを用意します。</p>
-<table>
-{% include '/hello/form.html.twig' %}
-</table>
+<p>※テーブルを用意します。</p>
+{% include '/hello/table.html.twig' with [data] %}
 {% endblock %}
