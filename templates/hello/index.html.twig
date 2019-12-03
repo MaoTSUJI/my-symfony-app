@@ -3,20 +3,12 @@
 {% block page %}{{ title }}{% endblock %}
 {% block title %}{{ title }}{% endblock %}
 
+{% import 'macro.html.twig' as m %}
 {% block body %}
 <table>
-<tr>
-    <th>Name</th>
-    <th>Age</th>
-    <th>Mail</th>
-</tr>
-
-{% for item in data %}
-<tr>
-    <td>{{ item.name }}</td>
-    <td>{{ item.age }}</td>
-    <td>{{ item.mail }}</td>
-</tr>
-{% endfor %}
+{{ m.input('text', 'Name', 'noname') }}
+{{ m.input('number', 'Age', '0') }}
+{{ m.input('email', 'Mail', 'no@mail') }}
+{{ m.submit('Click') }}
 </table>
 {% endblock %}
