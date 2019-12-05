@@ -4,6 +4,23 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<p>※テーブルを用意します。</p>
-{% include '/hello/table.html.twig' with [data] %}
+<p>Person table</p>
+<table>
+<tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Mail</th>
+    <th>Age</th>
+</tr>
+{% for item in data %}
+<tr>
+    <td>{{ item.id }}</td>
+    <td>{{ item.name }}</td>
+    <td>{{ item.mail }}</td>
+    <td>{{ item.age }}</td>
+</tr>
+{% endfor %}
+</table>
+
+
 {% endblock %}
