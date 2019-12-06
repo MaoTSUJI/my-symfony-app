@@ -31,16 +31,32 @@ class HelloController extends AbstractController
     }
 
     /**
-     * @Route("/find/{id}", name="find")
+     * @Route("/find", name="find")
      */
-    public function find(Request $request, Person $person)
+    public function find(Request $request)
     {
+        $formobj = new FindForm();
+        $form = $this->createFormBuilder($formobj)
+            ->add('find',TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Click'))
+            ->getForm();
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $findstr = $form->getData()->getFind();
+            $repository = $this->getDoctrine()
+                ->getRepository(Person::class);
+            $result = $repository->find($findstr);
+        } else {
+            $result = null;
+        }
 
         return $this->render('hello/find.html.twig', [
             'title' => 'Hello',
-            'data' => $person,
+            'form' => $form->createView(),
+            'data' => $result,
         ]);
-
+        
     }
 
     /**
@@ -72,12 +88,55 @@ class HelloController extends AbstractController
                 'message' => 'Create Entity',
                 'form' => $form->createView(),
             ]);
+        }
+    }
 
+    /**
+     * @Route("/update/{id}", name="update")
+     */
+    public function update(Request $request, Person $person)
+    {
+
+        $form = $this->createFormBuilder($person)
+            ->add('name', TextType::class)
+            ->add('mail', TextType::class)
+            ->add('age', IntegerType::class)
+            ->add('save', SubmitType::class, array('label' => 'Click'))
+            ->getForm();
+
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            $person = $form->getData();
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($person);
+            $manager->flush();
+            return $this->redirect('/hello');
+
+        } else {
+            return $this->render('hello/create.html.twig', [
+                'title' => 'Hello',
+                'message' => 'Update Entity id=' . $person->getId(),
+                'form' => $form->createView()
+            ]);
         }
 
+    }
 
-        
 
+}
+
+class FindForm
+{
+    private $find;
+    
+    public function getFind()
+    {
+        return $this->find;
+    }
+    public function setFind($find)
+    {
+        $this->find = $find;
     }
 
 
