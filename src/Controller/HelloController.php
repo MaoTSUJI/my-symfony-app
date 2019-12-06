@@ -19,8 +19,9 @@ class HelloController extends AbstractController
      */
     public function index(Request $request)
     {
+        // Doctriine: ORM機能をまとめたクラス   // getRepository リポジトリを取得　引数はエンティティの引数
         $repository = $this->getDoctrine()->getRepository(Person::class);
-        $data = $repository->findall();
+        $data = $repository->findall(); // リポジトリのメソッドを呼び出してエンティティを取得する
 
         return $this->render('hello/index.html.twig', [
             'title' => 'Hello',
