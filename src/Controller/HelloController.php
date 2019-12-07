@@ -120,6 +120,36 @@ class HelloController extends AbstractController
                 'form' => $form->createView()
             ]);
         }
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+    public function delete(Request $request, Person $person)
+    {
+        $form = $this->createFormBuilder($person)
+            ->add('name', TextType::class)
+            ->add('mail', TextType::class)
+            ->add('age', IntegerType::class)
+            ->add('save', SubmitType::class, array('label' => 'Click'))
+            ->getForm();
+        
+            if($request->getMethod() == 'POST') {
+
+                $form->handleRequest($request);
+                $person = $form->getData();
+                $manager = $this->getDoctrine()->getManager();
+                $manager->remove($person);
+                $manager->flush();  // ここで初めてレコードが更新される
+
+                return $this->redirect('/hello');
+            } else {
+                return $this->render('hello/create.html.twig', [
+                    'title' => 'Hello',
+                    'message' => 'Update Entity id=' . $person->getId(),
+                    'form' => $form->createView()
+                ]);
+            }
 
     }
 
